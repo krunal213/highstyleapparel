@@ -68,7 +68,6 @@ class _LoginState extends State<Login> {
                                 color: Colors.transparent, // Border color
                               )),
                           onPressed: () {
-                            // TODO(developername): need to implement.
                             //VerificationCodeRoute().push(context);
                           },
                           child: Text("LOG IN",
