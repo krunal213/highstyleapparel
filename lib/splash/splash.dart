@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:highstyleapparel/navigations.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -8,10 +9,6 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +64,9 @@ class _SplashPageState extends State<SplashPage> {
                         color: Colors.white, // Border color
                         width: 1.18, // Stroke size (thickness)
                       )),
-                  onPressed: () {},
+                  onPressed: () {
+                    LoginRoute().push(context);
+                  },
                   child: Text("LOG IN",
                       style: TextStyle(
                           fontSize: 16.0,
@@ -83,7 +82,9 @@ class _SplashPageState extends State<SplashPage> {
                       color: Colors.white, // Border color
                       width: 1.18, // Stroke size (thickness)
                     )),
-                onPressed: () {},
+                onPressed: () {
+                  SignUpRoute().push(context);
+                },
                 child: Text("SIGN UP",
                     style: TextStyle(
                         fontSize: 16.0,
