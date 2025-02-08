@@ -62,9 +62,7 @@ class _VerificationCodeState extends State<VerificationCode> {
                     ),
                     SizedBox(height: 80),
                     GestureDetector(
-                        onTap: () {
-                          // TODO(developername): need to implement.
-                        },
+                        onTap: () {},
                         child: Text(
                           "00:10",
                           style: TextStyle(
