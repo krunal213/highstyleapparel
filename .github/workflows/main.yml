@@ -1,0 +1,119 @@
+name: "Build"
+
+on:
+  pull_request:
+    branches:
+      - 'main'  # Run only on pull requests to main
+
+jobs:
+  build:
+    name: Build & Run Tests
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+
+      - name: Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.2'
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Ensure dart_code_linter is in dev_dependencies
+        run: |
+          dart pub remove dart_code_linter || true
+          dart pub add --dev dart_code_linter
+
+      - name: Run DCL
+        id: dart_code_linter
+        run: dart run dart_code_linter:metrics analyze . --reporter=html --output-directory=./html_reports
+        continue-on-error: false  # Stop build if linting fails
+
+      - name: Install lcov
+        run: brew install lcov
+
+      - name: Run Tests
+        id: test
+        run: flutter test --coverage || true  # Continue even if tests fail
+
+      - name: Generate Coverage Report
+        run: |
+          genhtml coverage/lcov.info --output-directory=coverage/lcov-report
+
+      - name: Install Allure CLI
+        run: brew install allure
+
+      - name: Run tests and generate Allure report
+        run: |
+          set -o pipefail
+          dart run test_reporter -- flutter test
+          allure generate allure-results --single-file -o allure-report --clean
+
+  build_and_upload_artifact_on_success:
+    name: Build & Upload Artifacts (Success)
+    runs-on: macos-latest
+    needs: build
+    if: success()
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.2'
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build Debug APK, AAB, and IPA
+        run: |
+          flutter build apk --debug
+          flutter build appbundle --debug
+          flutter build ios --debug --no-codesign
+
+      - name: Compress iOS Build Directory
+        run: |
+          cd build
+          tar -czf ios_build.tar.gz ios
+
+      - name: Upload Build Artifacts, Coverage Report, and Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build-and-Coverage-and-Allure
+          path: |
+            build/app/outputs/flutter-apk/app-debug.apk
+            build/app/outputs/bundle/debug/app-debug.aab
+            build/ios_build.tar.gz
+            coverage/lcov-report
+            allure-report
+
+  build_and_upload_on_failure:
+    name: Upload Coverage Report and Allure Report on Failure
+    runs-on: macos-latest
+    needs: build
+    if: failure()
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Upload Coverage Report and Allure Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Coverage-and-Allure
+          path: |
+            coverage/lcov-report
+            allure-report

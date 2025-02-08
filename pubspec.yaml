@@ -75,6 +75,11 @@ dev_dependencies:
   go_router_builder: any
   build_verify: any
 
+  # test report generation lib
+  # https://pub.dev/packages/allure_report
+  allure_report: ^1.0.0
+  test_reporter: ^1.0.0
+
   flutter_test:
     sdk: flutter
 

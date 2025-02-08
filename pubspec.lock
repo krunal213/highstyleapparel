@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "61.0.0"
+  allure_report:
+    dependency: "direct dev"
+    description:
+      name: allure_report
+      sha256: f0f54bdb72357dc536b47653d48a5df466fe1a42d3ea154713678101d072b16d
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   analyzer:
     dependency: transitive
     description:
@@ -296,6 +304,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  freezed_annotation:
+    dependency: transitive
+    description:
+      name: freezed_annotation
+      sha256: c2e2d632dd9b8a2b7751117abcfc2b4888ecfe181bd9fca7170d9ef02e595fe2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.4"
   frontend_server_client:
     dependency: transitive
     description:
@@ -829,6 +845,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.9"
+  test_reporter:
+    dependency: "direct dev"
+    description:
+      name: test_reporter
+      sha256: "38b7aae776b7207fb0017db8de1b944297f84c62415cab75c79322b0fb0739d1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.5"
   timing:
     dependency: transitive
     description:
@@ -853,6 +877,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+  universal_io:
+    dependency: transitive
+    description:
+      name: universal_io
+      sha256: "1722b2dcc462b4b2f3ee7d188dad008b6eb4c40bbd03a3de451d82c78bba9aad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.2"
   uuid:
     dependency: transitive
     description:
