@@ -36,7 +36,45 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
 
+  # network lib
+  # https://pub.dev/packages/retrofit
+  retrofit: ^4.4.0
+  logger: ^2.4.0
+  json_annotation: ^4.9.0
+
+  # local storage
+  # https://pub.dev/packages/shared_preferences
+  shared_preferences: ^2.0.18
+
+  # dependency injection
+  # https://pub.dev/packages/get_it
+  get_it: ^8.0.3
+
+  # navigation library
+  # https://pub.dev/packages/go_router
+  go_router: ^14.6.2
+
+  # test code coverage
+  # https://pub.dev/packages/coverage/versions
+  coverage: ^1.0.0
+
+  # linter
+  # https://pub.dev/packages/dart_code_linter
+  dart_code_linter: ^1.3.0
+
 dev_dependencies:
+
+  # network lib
+  # https://pub.dev/packages/retrofit
+  retrofit_generator: '>=8.0.0 <10.0.0'
+  build_runner: ^2.3.3
+  json_serializable: ^6.8.0
+
+  # navigation library
+  # https://pub.dev/packages/go_router_builder
+  go_router_builder: any
+  build_verify: any
+
   flutter_test:
     sdk: flutter
 
