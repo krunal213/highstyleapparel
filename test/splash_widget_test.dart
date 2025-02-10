@@ -12,7 +12,7 @@ import 'package:highstyleapparel/splash/splash.dart';
 void main() {
   testWidgets('When Splash Screen Open', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
-      home: SplashPage(),
+      home: Splash(),
     ));
 
     Finder image_widget_background_finder = find.byKey(Key("image_widget_background"));
