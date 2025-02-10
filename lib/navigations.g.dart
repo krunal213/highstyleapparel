@@ -7,7 +7,7 @@ part of 'navigations.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
-      $splashPageRoute,
+      $splashRoute,
       $loginRoute,
       $signUpRoute,
       $verificationCodeRoute,
@@ -15,13 +15,13 @@ List<RouteBase> get $appRoutes => [
       $createNewPasswordRoute,
     ];
 
-RouteBase get $splashPageRoute => GoRouteData.$route(
+RouteBase get $splashRoute => GoRouteData.$route(
       path: '/',
-      factory: $SplashPageRouteExtension._fromState,
+      factory: $SplashRouteExtension._fromState,
     );
 
-extension $SplashPageRouteExtension on SplashPageRoute {
-  static SplashPageRoute _fromState(GoRouterState state) => SplashPageRoute();
+extension $SplashRouteExtension on SplashRoute {
+  static SplashRoute _fromState(GoRouterState state) => SplashRoute();
 
   String get location => GoRouteData.$location(
         '/',
