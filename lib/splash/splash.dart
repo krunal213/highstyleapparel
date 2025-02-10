@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:highstyleapparel/navigations.dart';
 
-class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
+class Splash extends StatefulWidget {
+  const Splash({Key? key}) : super(key: key);
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  State<Splash> createState() => _SplashState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
