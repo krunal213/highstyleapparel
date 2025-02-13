@@ -1,9 +1,9 @@
 name: "Build"
 
 on:
-  pull_request:
+  push:
     branches:
-      - 'main'  # Run only on pull requests to main
+      - '**'  # Run on push to any branch
 
 jobs:
   build:
