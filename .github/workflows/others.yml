@@ -58,7 +58,7 @@ jobs:
           set -o pipefail
           dart run test_reporter -- flutter test
           allure generate allure-results --single-file -o allure-report --clean
-          
+
   build_and_upload_artifact_on_success:
     name: Build & Upload Artifacts (Success)
     runs-on: macos-latest
@@ -115,4 +115,5 @@ jobs:
         with:
           name: Coverage-and-Allure
           path: |
+            coverage/lcov-report
             allure-report
