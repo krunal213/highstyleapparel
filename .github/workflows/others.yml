@@ -115,5 +115,4 @@ jobs:
         with:
           name: Coverage-and-Allure
           path: |
-            coverage/lcov-report
             allure-report
