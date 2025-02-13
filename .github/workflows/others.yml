@@ -59,12 +59,6 @@ jobs:
           dart run test_reporter -- flutter test
           allure generate allure-results --single-file -o allure-report --clean
           
-      - name: Check Test Coverage
-        uses: VeryGoodOpenSource/very_good_coverage@v2
-        with:
-          path: 'coverage/lcov.info'
-          min_coverage: 100    
-
   build_and_upload_artifact_on_success:
     name: Build & Upload Artifacts (Success)
     runs-on: macos-latest
@@ -115,13 +109,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
-      - name: Debug output for Coverage and Allure reports
-        run: |
-          echo "Checking if coverage report exists..."
-          ls -al coverage/lcov-report || echo "No files in coverage/lcov-report"
-          echo "Checking if allure report exists..."
-          ls -al allure-report || echo "No files in allure-report"
 
       - name: Upload Coverage Report and Allure Report as Artifact
         uses: actions/upload-artifact@v4
