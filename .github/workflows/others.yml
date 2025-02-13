@@ -1,0 +1,114 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - '**'  # Run on push to any branch
+
+jobs:
+  lint:
+    runs-on: macos-latest  # Changed to macOS
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.2'
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Run Dart Code Linter and Generate HTML Report
+        run: dart run dart_code_linter:metrics analyze . --fatal-style --reporter=html --output-directory=dart_lint_report --verbose
+
+      - name: Upload Lint Report Artifact on Failure
+        if: failure()  # Only upload if the linter fails
+        uses: actions/upload-artifact@v4
+        with:
+          name: dart-lint-report
+          path: dart_lint_report
+
+  test_coverage_report:
+    needs: lint  # Runs only if 'lint' job succeeds
+    runs-on: macos-latest  # Changed to macOS
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.2'
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Install lcov
+        run: brew install lcov  # Using Homebrew for macOS
+
+      - name: Install Allure CLI
+        run: brew install allure
+
+      - name: Run Tests
+        id: test
+        run: dart run test_reporter -- flutter test --coverage  # Updated with dart run test_reporter
+
+      - name: Generate Coverage Report
+        if: always()  # Runs regardless of the test step outcome
+        run: genhtml coverage/lcov.info --output-directory=coverage/lcov-report
+
+      - name: Generate Allure Report
+        if: always()  # Runs regardless of the previous steps' outcomes
+        run: allure generate allure-results --single-file -o allure-report --clean
+
+      - name: Upload Reports
+        if: always()  # Always upload the reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            coverage/lcov-report
+            allure-report
+            
+  build:
+    needs: test_coverage_report
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.2'
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build Debug APK, AAB, and IPA
+        run: |
+          flutter build apk --debug
+          flutter build appbundle --debug
+          flutter build ios --debug --no-codesign
+      
+      - name: Compress iOS Build Directory
+        run: |
+          cd build
+          tar -czf ios_build.tar.gz ios
+      
+      - name: Upload Builds
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build-and-Coverage-and-Allure
+          path: |
+            build/app/outputs/flutter-apk/app-debug.apk
+            build/app/outputs/bundle/debug/app-debug.aab
+            build/ios_build.tar.gz
