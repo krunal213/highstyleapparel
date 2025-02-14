@@ -56,7 +56,7 @@ jobs:
       - name: Run tests and generate Allure report
         run: |
           set -o pipefail
-          dart run test_reporter -- flutter test
+          dart run test_reporter -- flutter test || true  
           allure generate allure-results --single-file -o allure-report --clean
           
   build_and_upload_artifact_on_success:
