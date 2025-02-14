@@ -33,6 +33,7 @@ jobs:
         run: |
           dart pub remove dart_code_linter || true
           dart pub add --dev dart_code_linter
+
       - name: Run DCL
         id: dart_code_linter
         run: dart run dart_code_linter:metrics analyze . --reporter=html --output-directory=./html_reports
@@ -48,6 +49,7 @@ jobs:
       - name: Generate Coverage Report
         run: |
           genhtml coverage/lcov.info --output-directory=coverage/lcov-report
+
       - name: Install Allure CLI
         run: brew install allure
 
@@ -67,34 +69,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set Up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.22.2'
-          channel: 'stable'
-
-      - name: Install Dependencies
-        run: flutter pub get
-
-      - name: Build Debug APK, AAB, and IPA
-        run: |
-          flutter build apk --debug
-          flutter build appbundle --debug
-          flutter build ios --debug --no-codesign
-
-      - name: Compress iOS Build Directory
-        run: |
-          cd build
-          tar -czf ios_build.tar.gz ios
-
       - name: Upload Build Artifacts, Coverage Report, and Allure Report
         uses: actions/upload-artifact@v4
         with:
           name: Build-and-Coverage-and-Allure
           path: |
-            build/app/outputs/flutter-apk/app-debug.apk
-            build/app/outputs/bundle/debug/app-debug.aab
-            build/ios_build.tar.gz
             coverage/lcov-report
             allure-report
 
