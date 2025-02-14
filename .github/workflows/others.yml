@@ -33,7 +33,7 @@ jobs:
         run: |
           dart pub remove dart_code_linter || true
           dart pub add --dev dart_code_linter
-      
+
       - name: Run DCL
         id: dart_code_linter
         run: dart run dart_code_linter:metrics analyze . --reporter=html --output-directory=./html_reports
@@ -45,13 +45,21 @@ jobs:
       - name: Run Tests
         id: test
         run: |
-          flutter test --coverage || true  # Continue even if tests fail
-          ls -R coverage  # Debug output to verify coverage report exists
+          flutter test --coverage || true
+          ls -lh coverage/  # Debug: List coverage folder contents
+
+      - name: Verify Coverage File
+        run: |
+          if [ ! -f coverage/lcov.info ]; then
+            echo "No coverage data found! Exiting."
+            exit 1
+          fi
 
       - name: Generate Coverage Report
-        run: |
-          genhtml coverage/lcov.info --output-directory=coverage/lcov-report
-          ls -R coverage/lcov-report  # Debug output to verify report generation
+        run: genhtml coverage/lcov.info --output-directory=coverage/lcov-report
+
+      - name: Debug Coverage Report Directory
+        run: ls -lh coverage/
 
       - name: Install Allure CLI
         run: brew install allure
@@ -60,9 +68,7 @@ jobs:
         run: |
           set -o pipefail
           dart run test_reporter -- flutter test
-          ls -R allure-results  # Debug output to verify allure results
           allure generate allure-results --single-file -o allure-report --clean
-          ls -R allure-report  # Debug output to verify allure report generation
 
   build_and_upload_artifact_on_success:
     name: Build & Upload Artifacts (Success)
@@ -88,12 +94,12 @@ jobs:
           flutter build apk --debug
           flutter build appbundle --debug
           flutter build ios --debug --no-codesign
-      
+
       - name: Compress iOS Build Directory
         run: |
           cd build
           tar -czf ios_build.tar.gz ios
-      
+
       - name: Upload Build Artifacts, Coverage Report, and Allure Report
         uses: actions/upload-artifact@v4
         with:
@@ -104,7 +110,6 @@ jobs:
             build/ios_build.tar.gz
             coverage/lcov-report
             allure-report
-          if-no-files-found: warn  # Avoid hard failure if files are missing
 
   build_and_upload_on_failure:
     name: Upload Coverage Report and Allure Report on Failure
@@ -116,9 +121,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Debug Directory Contents
-        run: ls -R  # Debugging step to check directory structure
-      
+      - name: Debug Coverage Report Directory
+        run: ls -lh coverage/
+
       - name: Upload Coverage Report and Allure Report as Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -126,4 +131,3 @@ jobs:
           path: |
             coverage/lcov-report
             allure-report
-          if-no-files-found: warn  # Avoid hard failure if files are missing
