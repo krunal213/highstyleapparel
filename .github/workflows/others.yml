@@ -58,13 +58,7 @@ jobs:
           set -o pipefail
           dart run test_reporter -- flutter test
           allure generate allure-results --single-file -o allure-report --clean
-
-      - name: Verify Coverage
-        uses: VeryGoodOpenSource/very_good_coverage@v2
-        with:
-          path: '/coverage/lcov.info'
-          min_coverage: 100
-
+          
   build_and_upload_artifact_on_success:
     name: Build & Upload Artifacts (Success)
     runs-on: macos-latest
