@@ -59,6 +59,12 @@ jobs:
           dart run test_reporter -- flutter test
           allure generate allure-results --single-file -o allure-report --clean
 
+      - name: Verify Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v2
+        with:
+          path: '/coverage/lcov.info'
+          min_coverage: 100
+
   build_and_upload_artifact_on_success:
     name: Build & Upload Artifacts (Success)
     runs-on: macos-latest
@@ -78,11 +84,25 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
+      - name: Build Debug APK, AAB, and IPA
+        run: |
+          flutter build apk --debug
+          flutter build appbundle --debug
+          flutter build ios --debug --no-codesign
+
+      - name: Compress iOS Build Directory
+        run: |
+          cd build
+          tar -czf ios_build.tar.gz ios
+
       - name: Upload Build Artifacts, Coverage Report, and Allure Report
         uses: actions/upload-artifact@v4
         with:
           name: Build-and-Coverage-and-Allure
           path: |
+            build/app/outputs/flutter-apk/app-debug.apk
+            build/app/outputs/bundle/debug/app-debug.aab
+            build/ios_build.tar.gz
             coverage/lcov-report
             allure-report
 
@@ -95,6 +115,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+      - name: Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.2'
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
 
       - name: Upload Coverage Report and Allure Report as Artifact
         uses: actions/upload-artifact@v4
