@@ -57,7 +57,10 @@ jobs:
 
       - name: Run Tests
         id: test
-        run: dart run test_reporter -- flutter test --coverage  # Updated with dart run test_reporter
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          BRANCH_SUFFIX=$(echo "$BRANCH_NAME" | awk -F '/' '{print $NF}')
+          dart run test_reporter -- flutter test test/"$BRANCH_SUFFIX" --coverage
 
       - name: Coverage Threshold
         if: always()
