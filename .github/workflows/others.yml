@@ -81,6 +81,13 @@ jobs:
           min_coverage: 100
           exclude: 'lib/navigations.dart lib/navigations.g.dart'
 
+      - name: Coverage Threshold
+        if: always()
+        uses: VeryGoodOpenSource/very_good_coverage@v2
+        with:
+          path: '/coverage/lcov.info'
+          min_coverage: 100
+
       - name: Generate Coverage Report
         if: always()  # Runs regardless of the test step outcome
         run: genhtml coverage/lcov.info --output-directory=coverage/lcov-report
