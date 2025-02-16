@@ -55,20 +55,22 @@ jobs:
       - name: Install Allure CLI
         run: brew install allure
 
+      - name: Extract Branch Suffix
+        run: echo "BRANCH_SUFFIX=$(echo ${GITHUB_REF#refs/heads/} | awk -F '/' '{print $NF}')" >> $GITHUB_ENV
+
       - name: Run Tests
         id: test
         run: |
-          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-          BRANCH_SUFFIX=$(echo "$BRANCH_NAME" | awk -F '/' '{print $NF}')
           dart run test_reporter -- flutter test test/"$BRANCH_SUFFIX" --coverage
+      - name: Extract Coverage for Splash
+        run: lcov --extract coverage/lcov.info 'lib/${{ env.BRANCH_SUFFIX }}' -o coverage/lcov.info
 
       - name: Coverage Threshold
         if: always()
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: '/coverage/lcov.info'
+          path: coverage/lcov.info
           min_coverage: 100
-          exclude: 'lib/navigations.dart lib/navigations.g.dart'
 
       - name: Generate Coverage Report
         if: always()  # Runs regardless of the test step outcome
@@ -86,7 +88,7 @@ jobs:
           path: |
             coverage/lcov-report
             allure-report
-            
+  
   build:
     needs: test_coverage_report
     runs-on: macos-latest
@@ -109,12 +111,10 @@ jobs:
           flutter build apk --debug
           flutter build appbundle --debug
           flutter build ios --debug --no-codesign
-      
       - name: Compress iOS Build Directory
         run: |
           cd build
           tar -czf ios_build.tar.gz ios
-      
       - name: Upload Builds
         uses: actions/upload-artifact@v4
         with:
