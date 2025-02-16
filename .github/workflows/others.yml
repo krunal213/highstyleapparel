@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - '**'  # Run on push to any branch
+  pull_request:
+    branches:
+      - develop  # Runs when a PR is created/updated targeting develop
 
 jobs:
   lint:
