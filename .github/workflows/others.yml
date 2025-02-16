@@ -62,6 +62,7 @@ jobs:
         id: test
         run: |
           dart run test_reporter -- flutter test test/"$BRANCH_SUFFIX" --coverage
+
       - name: Extract Coverage for Splash
         run: lcov --extract coverage/lcov.info 'lib/${{ env.BRANCH_SUFFIX }}' -o coverage/lcov.info
 
