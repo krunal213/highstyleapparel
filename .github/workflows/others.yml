@@ -64,8 +64,8 @@ jobs:
       - name: Run Tests
         id: test
         run: |
-          dart run test_reporter -- flutter test test/"$BRANCH_SUFFIX" --coverage
-
+          dart run test_reporter -- flutter test --coverage
+          
       - name: Extract Coverage for perticular branch
         run: lcov --extract coverage/lcov.info 'lib/${{ env.BRANCH_SUFFIX }}' -o coverage/lcov.info
 
@@ -75,7 +75,6 @@ jobs:
         with:
           path: coverage/lcov.info
           min_coverage: 100
-          exclude: 'lib/navigations.dart lib/navigations.g.dart'
 
       - name: Generate Coverage Report
         if: always()  # Runs regardless of the test step outcome
@@ -116,12 +115,12 @@ jobs:
           flutter build apk --debug
           flutter build appbundle --debug
           flutter build ios --debug --no-codesign
-
+          
       - name: Compress iOS Build Directory
         run: |
           cd build
           tar -czf ios_build.tar.gz ios
-
+          
       - name: Upload Builds
         uses: actions/upload-artifact@v4
         with:
