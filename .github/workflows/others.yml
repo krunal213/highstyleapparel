@@ -112,10 +112,12 @@ jobs:
           flutter build apk --debug
           flutter build appbundle --debug
           flutter build ios --debug --no-codesign
+
       - name: Compress iOS Build Directory
         run: |
           cd build
           tar -czf ios_build.tar.gz ios
+
       - name: Upload Builds
         uses: actions/upload-artifact@v4
         with:
