@@ -45,3 +45,4 @@ app.*.map.json
 /coverage/
 /allure-results/
 /allure-report/
+/dart_lint_report/
