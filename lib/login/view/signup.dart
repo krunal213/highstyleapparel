@@ -15,11 +15,11 @@ class _SignUpState extends State<SignUp> {
       body: SafeArea(
           child: SingleChildScrollView(
               child: Padding(
-                  padding: EdgeInsets.only(top: 63, left: 33, right: 33),
+                  padding: const EdgeInsets.only(top: 63, left: 33, right: 33),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Create New Account",
+                      const Text("Create New Account",
                           key: Key("text_screen_title"),
                           style: TextStyle(
                             fontSize: 24.0,
@@ -28,8 +28,9 @@ class _SignUpState extends State<SignUp> {
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.left),
-                      SizedBox(height: 8),
-                      TextFormField(
+                      const SizedBox(height: 8),
+                      const TextField(
+                        key: Key("text_field_first_name"),
                         decoration: InputDecoration(
                           hintText: 'First Name*',
                           enabledBorder: UnderlineInputBorder(
@@ -37,8 +38,9 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 28),
-                      TextFormField(
+                      const SizedBox(height: 28),
+                      const TextField(
+                        key: Key("text_field_last_name"),
                         decoration: InputDecoration(
                           hintText: 'Last Name',
                           enabledBorder: UnderlineInputBorder(
@@ -46,8 +48,9 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 28),
-                      TextFormField(
+                      const SizedBox(height: 28),
+                      const TextField(
+                        key: Key("text_field_email_address"),
                         decoration: InputDecoration(
                           hintText: 'Email address*',
                           enabledBorder: UnderlineInputBorder(
@@ -55,8 +58,9 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 28),
-                      TextFormField(
+                      const SizedBox(height: 28),
+                      const TextField(
+                        key: Key("text_field_password"),
                         decoration: InputDecoration(
                           hintText: 'Password*',
                           enabledBorder: UnderlineInputBorder(
@@ -64,8 +68,9 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 28),
-                      TextFormField(
+                      const SizedBox(height: 28),
+                      const TextField(
+                        key: Key("text_field_confirm_password"),
                         decoration: InputDecoration(
                           hintText: 'Confirm password*',
                           enabledBorder: UnderlineInputBorder(
@@ -73,8 +78,9 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 28),
-                      TextFormField(
+                      const SizedBox(height: 28),
+                      const TextField(
+                        key: Key("text_field_mobile_number"),
                         decoration: InputDecoration(
                           hintText: 'Enter Mobile Number*',
                           enabledBorder: UnderlineInputBorder(
@@ -82,40 +88,42 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 48),
+                      const SizedBox(height: 48),
                       Center(
                         child: OutlinedButton(
+                          key: Key("outlined_button_sign_up"),
                           style: OutlinedButton.styleFrom(
                               backgroundColor: Color(0xFFAB8B57),
                               minimumSize: Size(164, 48),
-                              side: BorderSide(
+                              side: const BorderSide(
                                 color: Colors.transparent, // Border color
                               )),
                           onPressed: () {
                             VerificationCodeRoute().push(context);
                           },
-                          child: Text("SIGN UP",
+                          child: const Text("SIGN UP",
                               style: TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white)),
                         ),
                       ),
-                      SizedBox(height: 48),
+                      const SizedBox(height: 48),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             "Already have account?",
                             style:
-                            TextStyle(fontSize: 14.0, color: Colors.black),
+                                TextStyle(fontSize: 14.0, color: Colors.black),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           GestureDetector(
+                              key: Key('gesture_detector_login'),
                               onTap: () {
                                 LoginRoute().push(context);
                               },
-                              child: Text(
+                              child: const Text(
                                 "Log In",
                                 style: TextStyle(
                                     fontSize: 14.0,

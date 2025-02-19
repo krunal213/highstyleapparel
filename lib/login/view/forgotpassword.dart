@@ -13,14 +13,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: HighStyleAppBar(),
+        appBar: const HighStyleAppBar(),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(top: 32, left: 33, right: 33),
+            padding: const EdgeInsets.only(top: 32, left: 33, right: 33),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Forgot password?",
+                const Text("Forgot password?",
                     key: Key("text_screen_title"),
                     style: TextStyle(
                       fontSize: 24.0,
@@ -28,17 +28,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.left),
-                SizedBox(height: 24),
-                Text(
+                const SizedBox(height: 24),
+                const Text(
                     "Enter email associated with your account and we’ll send and email with intructions to reset your password",
                     style: TextStyle(
                       fontSize: 15.59,
                       height: 1.6,
                     ),
                     textAlign: TextAlign.left),
-                SizedBox(height: 48),
+                const SizedBox(height: 48),
                 TextFormField(
-                    decoration: InputDecoration(
+                    key: Key("text_form_field_email_address"),
+                    decoration: const InputDecoration(
                       icon: Icon(Icons.email_outlined),
                       hintText: 'Enter your email here',
                       enabledBorder: UnderlineInputBorder(
