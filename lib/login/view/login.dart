@@ -15,11 +15,11 @@ class _LoginState extends State<Login> {
       body: SafeArea(
           child: SingleChildScrollView(
               child: Padding(
-                  padding: EdgeInsets.only(top: 63, left: 33, right: 33),
+                  padding: const EdgeInsets.only(top: 63, left: 33, right: 33),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Log into\nyour account",
+                      const Text("Log into\nyour account",
                           key: Key("text_screen_title"),
                           style: TextStyle(
                             fontSize: 24.0,
@@ -28,8 +28,9 @@ class _LoginState extends State<Login> {
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.left),
-                      SizedBox(height: 48),
-                      TextFormField(
+                      const SizedBox(height: 48),
+                      const TextField(
+                        key: Key("text_form_field_email_address"),
                         decoration: InputDecoration(
                           hintText: 'Email address',
                           enabledBorder: UnderlineInputBorder(
@@ -37,8 +38,9 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 28),
-                      TextFormField(
+                      const SizedBox(height: 28),
+                      const TextField(
+                        key: Key("text_form_field_password"),
                         decoration: InputDecoration(
                           hintText: 'Password',
                           enabledBorder: UnderlineInputBorder(
@@ -46,53 +48,57 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 40),
+                      const SizedBox(height: 40),
                       Align(
                           alignment: Alignment.centerRight,
                           child: GestureDetector(
+                              key: const Key("gesture_detector_forgot_password"),
                               onTap: () {
                                 ForgotPasswordRoute().push(context);
                               },
-                              child: Text(
+                              child: const Text(
+                                key: Key("text_forgot_password"),
                                 "Forgot Password?",
                                 style: TextStyle(
                                     fontSize: 12.0, color: Colors.black),
                               ))),
-                      SizedBox(height: 24),
+                      const SizedBox(height: 24),
                       Center(
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                              backgroundColor: Color(0xFFAB8B57),
-                              minimumSize: Size(164, 48),
-                              side: BorderSide(
+                              backgroundColor: const Color(0xFFAB8B57),
+                              minimumSize: const Size(164, 48),
+                              side: const BorderSide(
                                 color: Colors.transparent, // Border color
                               )),
-                          onPressed: () {
-                            // TODO(developername): need to implement.
-                            //VerificationCodeRoute().push(context);
-                          },
-                          child: Text("LOG IN",
+                          onPressed: null,
+                          child: const Text(
+                              key: Key("text_login"),
+                              "LOG IN",
                               style: TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white)),
                         ),
                       ),
-                      SizedBox(height: 32),
+                      const SizedBox(height: 32),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
+                            key: Key("text_don't_have_an_account"),
                             "Don’t have an account?",
                             style:
                                 TextStyle(fontSize: 14.0, color: Colors.black),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           GestureDetector(
+                              key: const Key("gesture_detector_sign_up"),
                               onTap: () {
                                 SignUpRoute().push(context);
                               },
-                              child: Text(
+                              child: const Text(
+                                key: Key("text_sign_up"),
                                 "Sign Up",
                                 style: TextStyle(
                                     fontSize: 14.0,

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:highstyleapparel/navigations.dart';
 
-class Splash extends StatefulWidget {
-  const Splash({super.key});
+class SplashPage extends StatefulWidget {
+  const SplashPage({Key? key}) : super(key: key);
 
   @override
-  State<Splash> createState() => _SplashState();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashState extends State<Splash> {
+class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,15 +56,12 @@ class _SplashState extends State<Splash> {
               OutlinedButton(
                   key: const Key("outlinebutton_widget_login"),
                   style: OutlinedButton.styleFrom(
-                          backgroundColor: Color(0xFF444343),
-                          minimumSize: Size(164, 48),
-                          side: const BorderSide(
-                            color: Colors.white, // Border color
-                            width: 1.18, // Stroke size (thickness)
-                          ))
-                      .copyWith(
-                          overlayColor: MaterialStateProperty.all(
-                              Colors.white.withOpacity(0.2))),
+                      backgroundColor: const Color(0xFF444343),
+                      minimumSize: const Size(164, 48),
+                      side: const BorderSide(
+                        color: Colors.white, // Border color
+                        width: 1.18, // Stroke size (thickness)
+                      )),
                   onPressed: () {
                     LoginRoute().push(context);
                   },
@@ -77,15 +74,12 @@ class _SplashState extends State<Splash> {
               OutlinedButton(
                 key: const Key("outlinebutton_widget_signup"),
                 style: OutlinedButton.styleFrom(
-                        backgroundColor: const Color(0xFF444343),
-                        minimumSize: const Size(164, 48),
-                        side: const BorderSide(
-                          color: Colors.white, // Border color
-                          width: 1.18, // Stroke size (thickness)
-                        ))
-                    .copyWith(
-                        overlayColor: MaterialStateProperty.all(
-                            Colors.white.withOpacity(0.3))),
+                    backgroundColor: const Color(0xFF444343),
+                    minimumSize: const Size(164, 48),
+                    side: const BorderSide(
+                      color: Colors.white, // Border color
+                      width: 1.18, // Stroke size (thickness)
+                    )),
                 onPressed: () {
                   SignUpRoute().push(context);
                 },
