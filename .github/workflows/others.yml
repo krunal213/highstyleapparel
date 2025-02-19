@@ -2,8 +2,9 @@ name: Build
 
 on:
   push:
-    branches:
-      - '**'  # Run on push to any branch
+    branches-ignore:
+      - develop
+      - main  # Prevents execution on develop and main
 
 jobs:
   lint:
