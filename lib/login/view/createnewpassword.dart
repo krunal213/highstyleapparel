@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:highstyleapparel/highstyleappbar.dart';
 
@@ -11,6 +13,13 @@ class CreateNewPassword extends StatefulWidget {
 class _CreateNewPasswordState extends State<CreateNewPassword> {
   bool _obscureNewPasswordText = true;
   bool _obscureConfirmPasswordText = true;
+  final Map<bool, IconData> _iconsVisibility = HashMap();
+
+  @override
+  void initState() {
+    _iconsVisibility[true] = Icons.visibility_off;
+    _iconsVisibility[false] = Icons.visibility;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +59,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                       suffixIcon: IconButton(
                         key: const Key("icon_button_new_password"),
                         icon: Icon(
-                          _obscureNewPasswordText
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                          _iconsVisibility[_obscureNewPasswordText]
                         ),
                         onPressed: () {
                           setState(() {
@@ -73,9 +80,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                       suffixIcon: IconButton(
                         key: const Key("icon_button_confirm_password"),
                         icon: Icon(
-                          _obscureConfirmPasswordText
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                            _iconsVisibility[_obscureConfirmPasswordText]
                         ),
                         onPressed: () {
                           setState(() {
