@@ -7,21 +7,20 @@ part of 'navigations.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
-      $splashRoute,
+      $welcomeRoute,
       $loginRoute,
       $signUpRoute,
       $verificationCodeRoute,
       $forgotPasswordRoute,
-      $createNewPasswordRoute,
     ];
 
-RouteBase get $splashRoute => GoRouteData.$route(
+RouteBase get $welcomeRoute => GoRouteData.$route(
       path: '/',
-      factory: $SplashRouteExtension._fromState,
+      factory: $WelcomeRouteExtension._fromState,
     );
 
-extension $SplashRouteExtension on SplashRoute {
-  static SplashRoute _fromState(GoRouterState state) => SplashRoute();
+extension $WelcomeRouteExtension on WelcomeRoute {
+  static WelcomeRoute _fromState(GoRouterState state) => WelcomeRoute();
 
   String get location => GoRouteData.$location(
         '/',
@@ -107,6 +106,12 @@ extension $VerificationCodeRouteExtension on VerificationCodeRoute {
 RouteBase get $forgotPasswordRoute => GoRouteData.$route(
       path: '/forgotpassword',
       factory: $ForgotPasswordRouteExtension._fromState,
+      routes: [
+        GoRouteData.$route(
+          path: 'createnewpassword',
+          factory: $CreateNewPasswordRouteExtension._fromState,
+        ),
+      ],
     );
 
 extension $ForgotPasswordRouteExtension on ForgotPasswordRoute {
@@ -127,17 +132,12 @@ extension $ForgotPasswordRouteExtension on ForgotPasswordRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $createNewPasswordRoute => GoRouteData.$route(
-      path: '/createnewpassword',
-      factory: $CreateNewPasswordRouteExtension._fromState,
-    );
-
 extension $CreateNewPasswordRouteExtension on CreateNewPasswordRoute {
   static CreateNewPasswordRoute _fromState(GoRouterState state) =>
       CreateNewPasswordRoute();
 
   String get location => GoRouteData.$location(
-        '/createnewpassword',
+        '/forgotpassword/createnewpassword',
       );
 
   void go(BuildContext context) => context.go(location);

@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:highstyleapparel/highstyleappbar.dart';
+import 'package:highstyleapparel/navigations.dart';
 
 class CreateNewPassword extends StatefulWidget {
   const CreateNewPassword({super.key});
@@ -58,9 +59,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                       ),
                       suffixIcon: IconButton(
                         key: const Key("icon_button_new_password"),
-                        icon: Icon(
-                          _iconsVisibility[_obscureNewPasswordText]
-                        ),
+                        icon: Icon(_iconsVisibility[_obscureNewPasswordText]),
                         onPressed: () {
                           setState(() {
                             _obscureNewPasswordText = !_obscureNewPasswordText;
@@ -79,9 +78,8 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                       ),
                       suffixIcon: IconButton(
                         key: const Key("icon_button_confirm_password"),
-                        icon: Icon(
-                            _iconsVisibility[_obscureConfirmPasswordText]
-                        ),
+                        icon:
+                            Icon(_iconsVisibility[_obscureConfirmPasswordText]),
                         onPressed: () {
                           setState(() {
                             _obscureConfirmPasswordText =
@@ -93,13 +91,16 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                 const SizedBox(height: 64),
                 Center(
                   child: OutlinedButton(
+                    key: const Key("outlined_button_confirm"),
                     style: OutlinedButton.styleFrom(
                         backgroundColor: const Color(0xFFAB8B57),
                         minimumSize: const Size(164, 48),
                         side: const BorderSide(
                           color: Colors.transparent, // Border color
                         )),
-                    onPressed: null,
+                    onPressed: () {
+                      LoginRoute().go(context);
+                    },
                     child: const Text("Confirm",
                         style: TextStyle(
                             fontSize: 16.0,
