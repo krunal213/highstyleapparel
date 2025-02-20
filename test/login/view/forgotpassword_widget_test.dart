@@ -20,6 +20,6 @@ void main(){
 
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pumpAndSettle();
-    expect(goRouter.state?.path, "/createnewpassword");
+    expect(goRouter.state?.fullPath, CreateNewPasswordRoute().location);
   });
 }

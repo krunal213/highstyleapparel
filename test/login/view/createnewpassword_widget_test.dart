@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:highstyleapparel/login/view/createnewpassword.dart';
+import 'package:highstyleapparel/navigations.dart';
 
 void main(){
   testWidgets('When Click On Suffix Button Of New Password', (WidgetTester tester) async {
@@ -63,5 +65,20 @@ void main(){
     icon_button_confirm_password = tester.widget<IconButton>(icon_button_confirm_password_finder);
     icon_password = icon_button_confirm_password.icon as Icon;
     expect(icon_password.icon, Icons.visibility);
+  });
+
+  testWidgets('When Click On Outlined Button Of Confirm', (WidgetTester tester) async {
+    GoRouter goRouter = GoRouter(
+        routes: $appRoutes,
+        initialLocation: CreateNewPasswordRoute().location
+    );
+    await tester.pumpWidget(MaterialApp.router(
+        routerConfig: goRouter
+    ));
+    final buttonFinder = find.byKey(Key('outlined_button_confirm'));
+    await tester.ensureVisible(buttonFinder);
+    await tester.tap(buttonFinder);
+    await tester.pump();
+    expect(goRouter.state?.path, LoginRoute().location);
   });
 }

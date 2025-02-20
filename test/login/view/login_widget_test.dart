@@ -78,7 +78,7 @@ void main() {
     ));
     await tester.tap(find.byKey(Key('gesture_detector_forgot_password')));
     await tester.pumpAndSettle();
-    expect(goRouter.state?.path, "/forgotpassword");
+    expect(goRouter.state?.path, ForgotPasswordRoute().location);
   });
 
   testWidgets('When Click On Sign Up In Login Screen', (WidgetTester tester) async {
@@ -91,7 +91,7 @@ void main() {
     ));
     await tester.tap(find.byKey(Key('gesture_detector_sign_up')));
     await tester.pumpAndSettle();
-    expect(goRouter.state?.path, "/signup");
+    expect(goRouter.state?.path, SignUpRoute().location);
   });
 
 }

@@ -95,7 +95,7 @@ class _LoginState extends State<Login> {
                           GestureDetector(
                               key: const Key("gesture_detector_sign_up"),
                               onTap: () {
-                                SignUpRoute().push(context);
+                                SignUpRoute().go(context);
                               },
                               child: const Text(
                                 key: Key("text_sign_up"),
