@@ -8,13 +8,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:highstyleapparel/login/view/welcome.dart';
 import 'package:highstyleapparel/navigations.dart';
-import 'package:highstyleapparel/splash/splash.dart';
 
 void main() {
-  testWidgets('When Splash Screen Open', (WidgetTester tester) async {
+  testWidgets('When Welcome Screen Open', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
-      home: Splash(),
+      home: Welcome(),
     ));
 
     Finder image_widget_background_finder =
@@ -77,24 +77,24 @@ void main() {
         Colors.white);
   });
 
-  testWidgets('When Click On Signup Button In Splash Screen', (WidgetTester tester) async {
+  testWidgets('When Click On Signup Button In Welcome Screen', (WidgetTester tester) async {
     GoRouter goRouter = GoRouter(routes: $appRoutes);
     await tester.pumpWidget(MaterialApp.router(
       routerConfig: goRouter
     ));
     await tester.tap(find.byKey(Key('outlinebutton_widget_signup')));
     await tester.pumpAndSettle();
-    expect(goRouter.state?.path, "/signup");
+    expect(goRouter.state?.path, SignUpRoute().location);
   });
 
-  testWidgets('When Click On Login Button In Splash Screen', (WidgetTester tester) async {
+  testWidgets('When Click On Login Button In Welcome Screen', (WidgetTester tester) async {
     GoRouter goRouter = GoRouter(routes: $appRoutes);
     await tester.pumpWidget(MaterialApp.router(
         routerConfig: goRouter
     ));
     await tester.tap(find.byKey(Key('outlinebutton_widget_login')));
     await tester.pumpAndSettle();
-    expect(goRouter.state?.path, "/login");
+    expect(goRouter.state?.path, LoginRoute().location);
   });
 
 }

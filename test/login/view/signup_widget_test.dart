@@ -16,7 +16,7 @@ void main(){
     await tester.ensureVisible(buttonFinder);
     await tester.tap(buttonFinder);
     await tester.pump();
-    expect(goRouter.state?.path, "/verificationcode");
+    expect(goRouter.state?.path, VerificationCodeRoute().location);
   });
 
   testWidgets('When Click On Log In In Sign Up Screen', (WidgetTester tester) async {
@@ -31,7 +31,7 @@ void main(){
     await tester.ensureVisible(buttonFinder);
     await tester.tap(buttonFinder);
     await tester.pump();
-    expect(goRouter.state?.path, "/login");
+    expect(goRouter.state?.path, LoginRoute().location);
   });
 
 }

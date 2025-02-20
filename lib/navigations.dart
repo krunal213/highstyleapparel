@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:highstyleapparel/login/view/createnewpassword.dart';
 import 'package:highstyleapparel/login/view/verificationcode.dart';
-import 'package:highstyleapparel/splash/splash.dart';
 
 import 'login/view/forgotpassword.dart';
 import 'login/view/login.dart';
 import 'login/view/signup.dart';
+import 'login/view/welcome.dart';
 
 part 'navigations.g.dart';
+
 //https://pub.dev/packages/go_router
 //https://github.com/flutter/packages/blob/main/packages/go_router_builder/example/lib/simple_example.dart
 //https://pub.dev/documentation/go_router/latest/topics/Type-safe%20routes-topic.html
 
-@TypedGoRoute<SplashRoute>(path: '/')
+@TypedGoRoute<WelcomeRoute>(path: '/')
 @immutable
-class SplashRoute extends GoRouteData {
+class WelcomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const Splash();
+    return const Welcome();
   }
 }
 
@@ -49,7 +50,11 @@ class VerificationCodeRoute extends GoRouteData {
   }
 }
 
-@TypedGoRoute<ForgotPasswordRoute>(path: '/forgotpassword')
+@TypedGoRoute<ForgotPasswordRoute>(
+    path: '/forgotpassword',
+    routes: <TypedGoRoute<GoRouteData>>[
+      TypedGoRoute<CreateNewPasswordRoute>(path: 'createnewpassword')
+    ])
 @immutable
 class ForgotPasswordRoute extends GoRouteData {
   @override
@@ -58,7 +63,6 @@ class ForgotPasswordRoute extends GoRouteData {
   }
 }
 
-@TypedGoRoute<CreateNewPasswordRoute>(path: '/createnewpassword')
 @immutable
 class CreateNewPasswordRoute extends GoRouteData {
   @override
@@ -66,4 +70,3 @@ class CreateNewPasswordRoute extends GoRouteData {
     return const CreateNewPassword();
   }
 }
-

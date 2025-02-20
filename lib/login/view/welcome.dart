@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:highstyleapparel/navigations.dart';
 
-class Splash extends StatefulWidget {
-  const Splash({super.key});
+class Welcome extends StatefulWidget {
+  const Welcome({super.key});
 
   @override
-  State<Splash> createState() => _SplashState();
+  State<Welcome> createState() => _WelcomeState();
 }
 
-class _SplashState extends State<Splash> {
+class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +66,7 @@ class _SplashState extends State<Splash> {
                           overlayColor: MaterialStateProperty.all(
                               Colors.white.withOpacity(0.2))),
                   onPressed: () {
-                    LoginRoute().push(context);
+                    LoginRoute().go(context);
                   },
                   child: const Text("LOG IN",
                       style: TextStyle(
@@ -87,7 +87,7 @@ class _SplashState extends State<Splash> {
                         overlayColor: MaterialStateProperty.all(
                             Colors.white.withOpacity(0.3))),
                 onPressed: () {
-                  SignUpRoute().push(context);
+                  SignUpRoute().go(context);
                 },
                 child: const Text("SIGN UP",
                     style: TextStyle(
