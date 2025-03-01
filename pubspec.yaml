@@ -65,12 +65,15 @@ dependencies:
   # https://pub.dev/packages/pinput
   pinput: ^5.0.1
 
+  # https://pub.dev/packages/rx
+  rx: ^0.4.0
+
 dev_dependencies:
 
   # network lib
   # https://pub.dev/packages/retrofit
   retrofit_generator: '>=8.0.0 <10.0.0'
-  build_runner: ^2.3.3
+  build_runner: '>=2.3.0 <4.0.0'
   json_serializable: ^6.8.0
 
   # navigation library
@@ -82,6 +85,10 @@ dev_dependencies:
   # https://pub.dev/packages/allure_report
   allure_report: ^1.0.0
   test_reporter: ^1.0.0
+
+  # mockito lib
+  # https://pub.dev/packages/mockito
+  mockito: ^5.4.2
 
   flutter_test:
     sdk: flutter
