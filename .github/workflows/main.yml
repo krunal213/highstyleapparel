@@ -104,7 +104,9 @@ jobs:
           lcov --remove coverage/lcov.info \
             'lib/navigations.dart' \
             'lib/navigations.g.dart' \
-            'lib/highstyleappbar.dart' \
+            'lib/high_style_app_bar.dart' \
+            'lib/high_style_obscure_text_field.dart' \
+            'lib/login/high_style_count_down_timer_helper.dart' \
             'lib/generated/**' \
             'lib/login/entity/**' \
             'lib/login/repository/datasource/network/login_flow_rest_client.g.dart' \
@@ -120,7 +122,9 @@ jobs:
           exclude: >
             lib/navigations.dart
             lib/navigations.g.dart
-            lib/highstyleappbar.dart
+            lib/high_style_app_bar.dart
+            lib/high_style_obscure_text_field.dart
+            lib/login/high_style_count_down_timer_helper.dart
             lib/generated/**
             lib/login/entity/**
             lib/login/repository/datasource/network/login_flow_rest_client.g.dart
