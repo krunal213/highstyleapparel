@@ -1,16 +1,45 @@
-abstract class LoginFlowDiscDataSource {}
+import 'package:highstyleapparel/login/entity/register_request.dart';
+import 'package:highstyleapparel/login/entity/register_response.dart';
+import 'package:highstyleapparel/login/entity/reset_password_request.dart';
+import 'package:highstyleapparel/login/entity/reset_password_response.dart';
+import 'package:highstyleapparel/login/entity/send_otp_response.dart';
+import 'package:highstyleapparel/login/entity/verify_otp_request.dart';
+import 'package:highstyleapparel/login/entity/verify_otp_response.dart';
+import 'package:highstyleapparel/result.dart';
 
-abstract class LoginFlowNetworkDataSource {}
+import 'entity/login_request.dart';
+import 'entity/login_response.dart';
+import 'entity/send_otp_request.dart';
+
+abstract class LoginFlowDiscDataSource {
+  Future<bool> saveCustomerId(String userId);
+
+  Future<String?> getCustomerId();
+}
+
+abstract class LoginFlowNetworkDataSource {
+  Future<RegisterResponse> register(RegisterRequest registerRequest);
+
+  Future<LoginResponse> login(LoginRequest loginRequest);
+
+  Future<SendOtpResponse> sendOtpRequest(SendOtpRequest sendOtpRequest);
+
+  Future<ResetPasswordResponse> resetPassword(ResetPasswordRequest resetPasswordRequest);
+
+  Future<VerifyOtpResponse> verifyCode(VerifyOtpRequest verifyOtpRequest);
+}
 
 abstract class LoginFlowRepository {
-  login(String emailAddress, String password);
+  Future<Result<String>> login(LoginRequest loginRequest);
 
-  signup(String firstName, String? lastName, String emailAddress,
-      String password, String confirmPassword, String mobileNumber);
+  Future<Result<String>> signup(RegisterRequest registerRequest);
 
-  forgotPassword(String emailAddress);
+  Future<Result<SendOtpResponse>> forgotPassword(SendOtpRequest sendOtpRequest);
 
-  createNewPassword(String password, String confirmPassword);
+  Future<Result<ResetPasswordResponse>> resetPassword(ResetPasswordRequest resetPasswordRequest);
 
-  verifyCode(String verifyCode);
+  Future<Result<VerifyOtpResponse>> verifyCode(VerifyOtpRequest verifyOtpRequest);
+
+  Future<Result<String>> isUserLogin();
+
 }

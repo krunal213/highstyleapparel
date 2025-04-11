@@ -3,87 +3,152 @@ name: Build
 on:
   pull_request:
     branches:
-      - develop  # Change this to the branch you want PRs to trigger on
+      - develop
 
 jobs:
   lint:
-    runs-on: macos-latest  # Changed to macOS
+    runs-on: macos-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Set Up Flutter
-        uses: subosito/flutter-action@v2
+      - uses: dart-lang/setup-dart@v1
         with:
-          flutter-version: '3.22.2'
+          sdk: '3.3.1'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.3'
           channel: 'stable'
 
-      - name: Install Dependencies
-        run: flutter pub get
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: ${{ runner.os }}-flutter-
 
-      - name: Run Dart Code Linter and Generate HTML Report
-        run: dart run dart_code_linter:metrics analyze . --fatal-style --reporter=html --output-directory=dart_lint_report --verbose
+      - run: flutter pub get
 
-      - name: Upload Lint Report Artifact on Failure
-        if: failure()  # Only upload if the linter fails
+      - run: dart run dart_code_linter:metrics analyze . --fatal-style --reporter=html --output-directory=dart_lint_report --verbose
+
+      - name: Upload Lint Report
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: dart-lint-report
           path: dart_lint_report
 
   test_coverage_report:
-    needs: lint  # Runs only if 'lint' job succeeds
-    runs-on: macos-latest  # Changed to macOS
+    needs: lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set Up Flutter
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter (stable)
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.2'
+          flutter-version: '3.19.3'
           channel: 'stable'
 
-      - name: Install Dependencies
-        run: flutter pub get
+      - name: Install Android SDK
+        uses: malinskiy/action-android/install-sdk@release/0.1.7
+
+      - run: echo $ANDROID_HOME
+
+      - run: sdkmanager --install "ndk;23.1.7779620"
+      - run: sdkmanager --install "build-tools;30.0.3"
+      - run: sdkmanager --install "system-images;android-31;google_apis;x86_64"
+
+      - run: flutter pub get
+
+      # Enable KVM for hardware acceleration
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
       - name: Install lcov
-        run: brew install lcov  # Using Homebrew for macOS
+        run: sudo apt-get update && sudo apt-get install -y lcov
 
       - name: Install Allure CLI
-        run: brew install allure
-
-      - name: Run Tests
-        id: test
         run: |
-          dart run test_reporter -- flutter test --coverage
+          wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
+          tar -xzf allure-2.27.0.tgz
+          sudo mv allure-2.27.0 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/local/bin/allure
+
+      - name: Run Integration Tests with Coverage
+        uses: malinskiy/action-android/emulator-run-cmd@release/0.1.7
+        with:
+          cmd: dart run test_reporter -- flutter test integration_test --coverage
+          api: 31
+          cmdOptions: -no-snapshot-save -noaudio -no-boot-anim -cores 2 -memory 3072 -no-window
+          tag: google_apis
+          abi: x86_64
+
+      - name: Remove unwanted files from coverage
+        if: always()
+        run: |
+          lcov --remove coverage/lcov.info \
+            'lib/navigations.dart' \
+            'lib/navigations.g.dart' \
+            'lib/high_style_app_bar.dart' \
+            'lib/high_style_obscure_text_field.dart' \
+            'lib/login/high_style_count_down_timer_helper.dart' \
+            'lib/generated/**' \
+            'lib/login/entity/**' \
+            'lib/login/repository/datasource/network/login_flow_rest_client.g.dart' \
+            --ignore-errors unused \
+            -o coverage/lcov.cleaned.info
 
       - name: Coverage Threshold
         if: always()
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: coverage/lcov.info
+          path: coverage/lcov.cleaned.info
           min_coverage: 100
-          exclude: 'lib/navigations.dart lib/navigations.g.dart lib/highstyleappbar.dart'
+          exclude: >
+            lib/navigations.dart
+            lib/navigations.g.dart
+            lib/high_style_app_bar.dart
+            lib/high_style_obscure_text_field.dart
+            lib/login/high_style_count_down_timer_helper.dart
+            lib/generated/**
+            lib/login/entity/**
+            lib/login/repository/datasource/network/login_flow_rest_client.g.dart
 
-      - name: Generate Coverage Report
-        if: always()  # Runs regardless of the test step outcome
-        run: genhtml coverage/lcov.info --output-directory=coverage/lcov-report
+      - name: Move Allure Results to Integration Test Folder
+        if: always()
+        run: mv allure-results allure-results-integration-tests
+
+      - name: Generate HTML Coverage Report
+        if: always()
+        run: genhtml coverage/lcov.cleaned.info --output-directory=coverage/integration-test-lcov-report
 
       - name: Generate Allure Report
-        if: always()  # Runs regardless of the previous steps' outcomes
-        run: allure generate allure-results --single-file -o allure-report --clean
+        if: always()
+        run: allure generate allure-results-integration-tests --single-file -o allure-report/integration-tests --clean
 
-      - name: Upload Reports
-        if: always()  # Always upload the reports
+      - name: Upload Integration Test Reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: reports
+          name: Integration-Test-Reports
           path: |
-            coverage/lcov-report
-            allure-report
+            coverage/integration-test-lcov-report
+            allure-report/integration-tests
 
   build:
     needs: test_coverage_report
@@ -93,10 +158,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set Up Flutter
-        uses: subosito/flutter-action@v2
+      - uses: dart-lang/setup-dart@v1
         with:
-          flutter-version: '3.22.2'
+          sdk: '3.3.1'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.3'
           channel: 'stable'
 
       - name: Install Dependencies

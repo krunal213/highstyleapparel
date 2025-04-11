@@ -1,0 +1,50 @@
+{
+  "@@locale": "en",
+  "title_app_title": "HighStyleApparel",
+
+  "@_Welcome": {},
+  "title_welcome_screen_title": "Welcome to \n High Style Apparel",
+  "title_welcome_screen_sub_title": "The home for a highstyleapparel",
+  "title_login_uppercase": "LOG IN",
+  "title_signup_uppercase": "SIGN UP",
+
+  "@_Login": {},
+  "title_login_screen_title": "Log into\nyour account",
+  "title_login_screen_email_address_hint": "Email address",
+  "title_password_hint": "Password",
+  "title_forgot_password": "Forgot password?",
+  "title_dont_have_account": "Don’t have an account?",
+  "title_signup_title_case": "Sign Up",
+
+  "@_Sign_Up": {},
+  "title_create_new_account": "Create New Account",
+  "title_first_name_hint": "First name*",
+  "title_last_name_hint": "Last name",
+  "title_email_address_hint": "Email address*",
+  "title_password_hint_required": "Password*",
+  "title_confirm_password_hint_required": "Confirm password*",
+  "title_mobile_number_hint": "Enter mobile number*",
+  "title_already_have_account": "Already have account?",
+  "title_login": "Log In",
+
+  "@_Verification_Code": {},
+  "title_verification_code_tite": "Verification code",
+  "title_verification_code_sub_title": "Please enter the verification code we sent\nto your email address",
+  "title_resend_in": "Resend in ",
+  "title_resend": "Resend Now",
+
+  "@_Forgot_Password": {},
+  "title_forgot_password_screen_sub_title": "Enter email associated with your account and we’ll send and email with intructions to reset your password",
+  "title_forgot_password_screen_email_address_hint": "Enter your email here",
+
+  "@_Create_New_Password": {},
+  "title_create_newpassword_screen_title": "Create new password",
+  "title_new_password_hint": "New Password",
+  "title_confirm_password_hint": "Confirm Password",
+  "title_confirm": "Confirm",
+
+  "@_Dialogs": {},
+  "title_loading": "Loading",
+  "title_alert": "Alert!",
+  "title_okay": "Okay"
+}
