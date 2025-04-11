@@ -1,25 +1,34 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
-import 'package:highstyleapparel/highstyleappbar.dart';
+import 'package:get_it/get_it.dart';
+import 'package:highstyleapparel/exceptions.dart';
+import 'package:highstyleapparel/generated/l10n.dart';
+import 'package:highstyleapparel/high_style_app_bar.dart';
+import 'package:highstyleapparel/high_style_extension.dart';
+import 'package:highstyleapparel/high_style_obscure_text_field.dart';
+import 'package:highstyleapparel/login/bloc/create_new_password_bloc.dart';
 import 'package:highstyleapparel/navigations.dart';
+import 'package:highstyleapparel/result.dart';
 
 class CreateNewPassword extends StatefulWidget {
-  const CreateNewPassword({super.key});
+  final String sessionId;
+
+  const CreateNewPassword({required this.sessionId, super.key});
 
   @override
   State<CreateNewPassword> createState() => _CreateNewPasswordState();
 }
 
 class _CreateNewPasswordState extends State<CreateNewPassword> {
-  bool _obscureNewPasswordText = true;
-  bool _obscureConfirmPasswordText = true;
-  final Map<bool, IconData> _iconsVisibility = HashMap();
+  late final CreateNewPasswordBloc _createNewPasswordBloc;
+  late final TextEditingController _newPasswordController;
+  late final TextEditingController _confirmPasswordController;
+  HighStyleProgressDialog? _highStyleProgressDialog;
 
   @override
   void initState() {
-    _iconsVisibility[true] = Icons.visibility_off;
-    _iconsVisibility[false] = Icons.visibility;
+    _createNewPasswordBloc = GetIt.I<CreateNewPasswordBloc>();
+    _newPasswordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
   }
 
   @override
@@ -32,9 +41,9 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Create new password",
-                    key: Key("text_screen_title"),
-                    style: TextStyle(
+                Text(S.of(context).title_create_newpassword_screen_title,
+                    key: const Key("text_screen_title"),
+                    style: const TextStyle(
                       fontSize: 24.0,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -49,45 +58,37 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                     ),
                     textAlign: TextAlign.left),
                 const SizedBox(height: 48),
-                TextField(
-                  key: const Key("text_field_new_password"),
-                  obscureText: _obscureNewPasswordText,
-                  decoration: InputDecoration(
-                      hintText: 'New Password',
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFD6D6D6)),
-                      ),
-                      suffixIcon: IconButton(
-                        key: const Key("icon_button_new_password"),
-                        icon: Icon(_iconsVisibility[_obscureNewPasswordText]),
-                        onPressed: () {
-                          setState(() {
-                            _obscureNewPasswordText = !_obscureNewPasswordText;
-                          });
-                        },
-                      )),
-                ),
+                StreamBuilder<String>(
+                    stream: _createNewPasswordBloc.invalidPasswordStream,
+                    builder: (context, snapShot) {
+                      return HighStyleObscureTextField(
+                          key: const Key("text_field_new_password"),
+                          controller: _newPasswordController,
+                          hintText: S.of(context).title_new_password_hint,
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFD6D6D6)),
+                          ),
+                          errorText: snapShot.hasError &&
+                                  snapShot.error.toString().isNotEmpty
+                              ? snapShot.error.toString()
+                              : null);
+                    }),
                 const SizedBox(height: 28),
-                TextField(
-                  key: const Key("text_field_confirm_password"),
-                  obscureText: _obscureConfirmPasswordText,
-                  decoration: InputDecoration(
-                      hintText: 'Confirm Password',
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFD6D6D6)),
-                      ),
-                      suffixIcon: IconButton(
-                        key: const Key("icon_button_confirm_password"),
-                        icon:
-                            Icon(_iconsVisibility[_obscureConfirmPasswordText]),
-                        onPressed: () {
-                          setState(() {
-                            _obscureConfirmPasswordText =
-                                !_obscureConfirmPasswordText;
-                          });
-                        },
-                      )),
-                ),
+                StreamBuilder<String>(
+                    stream: _createNewPasswordBloc.invalidConfirmPasswordStream,
+                    builder: (context, snapShot) {
+                      return HighStyleObscureTextField(
+                          key: const Key("text_field_confirm_password"),
+                          controller: _confirmPasswordController,
+                          hintText: S.of(context).title_confirm_password_hint,
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFD6D6D6)),
+                          ),
+                          errorText: snapShot.hasError &&
+                                  snapShot.error.toString().isNotEmpty
+                              ? snapShot.error.toString()
+                              : null);
+                    }),
                 const SizedBox(height: 64),
                 Center(
                   child: OutlinedButton(
@@ -98,16 +99,53 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                         side: const BorderSide(
                           color: Colors.transparent, // Border color
                         )),
-                    onPressed: () {
-                      LoginRoute().go(context);
-                    },
-                    child: const Text("Confirm",
-                        style: TextStyle(
+                    onPressed: () => _createNewPasswordBloc.resetPassword(
+                        _newPasswordController.text,
+                        _confirmPasswordController.text,
+                        widget.sessionId),
+                    child: Text(S.of(context).title_confirm,
+                        style: const TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white)),
                   ),
                 ),
+                StreamBuilder<Result<String>>(
+                    stream: _createNewPasswordBloc.resetPasswordStream,
+                    builder: (context, snapShot) {
+                      Result<String>? result = snapShot.data;
+                      if (result is Loading) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          _highStyleProgressDialog =
+                              HighStyleProgressDialog(context);
+                          _highStyleProgressDialog
+                              ?.showHighStyleProgressDialog();
+                        });
+                      } else if (result is Success<String>) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          _highStyleProgressDialog
+                              ?.hideHighStyleProgressDialog();
+                          showHighStyleSuccessDialog(result, () {
+                            hideHighStyleSuccessDialog();
+                            LoginRoute().go(context);
+                          });
+                        });
+                      } else if (result is Error) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          _highStyleProgressDialog
+                              ?.hideHighStyleProgressDialog();
+                          if (result.exception is NoInternetException ||
+                              result.exception is ClientErrorException ||
+                              result.exception is SomethingWentWrongException) {
+                            showHighStyleErrorDialog(result, () {
+                              hideHighStyleErrorDialog();
+                            });
+                          }
+                        });
+                      }
+
+                      return const SizedBox.shrink();
+                    })
               ],
             ),
           ),
