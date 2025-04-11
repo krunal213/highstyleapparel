@@ -46,3 +46,5 @@ app.*.map.json
 /allure-results/
 /allure-report/
 /dart_lint_report/
+/allure-results-integration-tests/
+/allure-results-unit-tests/

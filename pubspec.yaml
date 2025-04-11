@@ -65,8 +65,24 @@ dependencies:
   # https://pub.dev/packages/pinput
   pinput: ^5.0.1
 
-  # https://pub.dev/packages/rx
-  rx: ^0.4.0
+  # https://pub.dev/packages/flutter_timer_countdown
+  flutter_timer_countdown: ^1.0.7
+
+  # https://docs.flutter.dev/ui/accessibility-and-internationalization/internationalization
+  flutter_localizations:
+    sdk: flutter
+
+  # https://pub.dev/packages/intl
+  intl: ^0.18.0
+
+  # https://pub.dev/packages/rxdart
+  rxdart: ^0.28.0
+
+  # https://pub.dev/packages/stop_watch_timer
+  stop_watch_timer: ^3.2.1
+
+  # https://pub.dev/packages/dio
+  dio: any
 
 dev_dependencies:
 
@@ -86,11 +102,16 @@ dev_dependencies:
   allure_report: ^1.0.0
   test_reporter: ^1.0.0
 
-  # mockito lib
-  # https://pub.dev/packages/mockito
-  mockito: ^5.4.2
+  # https://pub.dev/packages/intl_utils
+  # run command after adding text in arb flutter pub run intl_utils:generate
+  intl_utils: any
+
+  mocktail: ^1.0.4
 
   flutter_test:
+    sdk: flutter
+
+  integration_test:
     sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -150,3 +171,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true
