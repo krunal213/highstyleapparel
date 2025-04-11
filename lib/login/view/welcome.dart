@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:highstyleapparel/navigations.dart';
+import 'package:highstyleapparel/generated/l10n.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
@@ -40,24 +41,24 @@ class _WelcomeState extends State<Welcome> {
                 width: 254,
                 height: 216,
               ),
-              const Text("Welcome to \n High Style Apparel",
-                  key: Key("text_widget_welcome_message"),
-                  style: TextStyle(
+              Text(S.of(context).title_welcome_screen_title,
+                  key: const Key("text_widget_welcome_message"),
+                  style: const TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                   textAlign: TextAlign.center),
               const SizedBox(height: 2),
-              const Text("The home for a highstyleapparel",
-                  key: Key("text_widget_slogan"),
-                  style: TextStyle(fontSize: 16.0, color: Colors.white),
+              Text(S.of(context).title_welcome_screen_sub_title,
+                  key: const Key("text_widget_slogan"),
+                  style: const TextStyle(fontSize: 16.0, color: Colors.white),
                   textAlign: TextAlign.center),
               const SizedBox(height: 16),
               OutlinedButton(
                   key: const Key("outlinebutton_widget_login"),
                   style: OutlinedButton.styleFrom(
-                          backgroundColor: Color(0xFF444343),
-                          minimumSize: Size(164, 48),
+                          backgroundColor: const Color(0xFF444343),
+                          minimumSize: const Size(164, 48),
                           side: const BorderSide(
                             color: Colors.white, // Border color
                             width: 1.18, // Stroke size (thickness)
@@ -65,11 +66,10 @@ class _WelcomeState extends State<Welcome> {
                       .copyWith(
                           overlayColor: MaterialStateProperty.all(
                               Colors.white.withOpacity(0.2))),
-                  onPressed: () {
-                    LoginRoute().go(context);
-                  },
-                  child: const Text("LOG IN",
-                      style: TextStyle(
+                  onPressed: () =>
+                    LoginRoute().go(context),
+                  child: Text(S.of(context).title_login_uppercase,
+                      style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.white))),
@@ -86,11 +86,10 @@ class _WelcomeState extends State<Welcome> {
                     .copyWith(
                         overlayColor: MaterialStateProperty.all(
                             Colors.white.withOpacity(0.3))),
-                onPressed: () {
-                  SignUpRoute().go(context);
-                },
-                child: const Text("SIGN UP",
-                    style: TextStyle(
+                onPressed: () =>
+                  SignUpRoute().go(context),
+                child: Text(S.of(context).title_signup_uppercase,
+                    style: const TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.white)),
