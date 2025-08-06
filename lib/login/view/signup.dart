@@ -7,6 +7,8 @@ import 'package:highstyleapparel/navigations.dart';
 import 'package:highstyleapparel/result.dart';
 import 'package:highstyleapparel/generated/l10n.dart';
 
+import '../../high_style_obscure_text_field.dart';
+
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
 
@@ -67,10 +69,7 @@ class _SignUpState extends State<SignUp> {
                                     borderSide:
                                         BorderSide(color: Color(0xFFD6D6D6)),
                                   ),
-                                  errorText: snapShot.hasError &&
-                                      snapShot.error.toString().isNotEmpty
-                                      ? snapShot.error.toString()
-                                      : null),
+                                  errorText: snapShot.errorText()),
                             );
                           }),
                       const SizedBox(height: 28),
@@ -98,53 +97,40 @@ class _SignUpState extends State<SignUp> {
                                     borderSide:
                                         BorderSide(color: Color(0xFFD6D6D6)),
                                   ),
-                                  errorText: snapShot.hasError &&
-                                      snapShot.error.toString().isNotEmpty
-                                      ? snapShot.error.toString()
-                                      : null),
+                                  errorText: snapShot.errorText()),
                             );
                           }),
                       const SizedBox(height: 28),
                       StreamBuilder(
                           stream: _signUpFlowBloc.invalidPasswordStream,
                           builder: (context, snapShot) {
-                            return TextField(
+                            return HighStyleObscureTextField(
                               key: const Key("text_field_password"),
                               controller: _passwordController,
-                              decoration: InputDecoration(
-                                  hintText: S
-                                      .of(context)
-                                      .title_password_hint_required,
-                                  enabledBorder: const UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Color(0xFFD6D6D6)),
-                                  ),
-                                  errorText: snapShot.hasError &&
-                                      snapShot.error.toString().isNotEmpty
-                                      ? snapShot.error.toString()
-                                      : null),
+                              hintText:
+                                  S.of(context).title_password_hint_required,
+                              enabledBorder: const UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xFFD6D6D6)),
+                              ),
+                              errorText: snapShot.errorText(),
                             );
                           }),
                       const SizedBox(height: 28),
                       StreamBuilder(
                           stream: _signUpFlowBloc.invalidConfirmPasswordStream,
                           builder: (context, snapShot) {
-                            return TextField(
-                              key: const Key("text_field_confirm_password"),
-                              controller: _confirmPasswordController,
-                              decoration: InputDecoration(
-                                  hintText: S
-                                      .of(context)
-                                      .title_confirm_password_hint_required,
-                                  enabledBorder: const UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Color(0xFFD6D6D6)),
-                                  ),
-                                  errorText: snapShot.hasError &&
-                                      snapShot.error.toString().isNotEmpty
-                                      ? snapShot.error.toString()
-                                      : null),
-                            );
+                            return HighStyleObscureTextField(
+                                key: const Key("text_field_confirm_password"),
+                                controller: _confirmPasswordController,
+                                hintText: S
+                                    .of(context)
+                                    .title_confirm_password_hint_required,
+                                enabledBorder: const UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD6D6D6)),
+                                ),
+                                errorText: snapShot.errorText());
                           }),
                       const SizedBox(height: 28),
                       StreamBuilder(
@@ -160,10 +146,7 @@ class _SignUpState extends State<SignUp> {
                                     borderSide:
                                         BorderSide(color: Color(0xFFD6D6D6)),
                                   ),
-                                  errorText: snapShot.hasError &&
-                                      snapShot.error.toString().isNotEmpty
-                                      ? snapShot.error.toString()
-                                      : null),
+                                  errorText: snapShot.errorText()),
                             );
                           }),
                       const SizedBox(height: 48),

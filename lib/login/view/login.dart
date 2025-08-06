@@ -7,6 +7,8 @@ import 'package:highstyleapparel/navigations.dart';
 import 'package:highstyleapparel/result.dart';
 import 'package:highstyleapparel/generated/l10n.dart';
 
+import '../../high_style_obscure_text_field.dart';
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -61,30 +63,22 @@ class _LoginState extends State<Login> {
                                     borderSide:
                                         BorderSide(color: Color(0xFFD6D6D6)),
                                   ),
-                                  errorText: snapShot.hasError &&
-                                          snapShot.error.toString().isNotEmpty
-                                      ? snapShot.error.toString()
-                                      : null),
+                                  errorText: snapShot.errorText()),
                             );
                           }),
                       const SizedBox(height: 28),
                       StreamBuilder<String>(
                           stream: _loginFlowBloc.invalidPasswordStream,
                           builder: (context, snapShot) {
-                            return TextField(
-                              key: const Key("text_field_password"),
-                              controller: _passwordController,
-                              decoration: InputDecoration(
-                                  hintText: S.of(context).title_password_hint,
-                                  enabledBorder: const UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Color(0xFFD6D6D6)),
-                                  ),
-                                  errorText: snapShot.hasError &&
-                                          snapShot.error.toString().isNotEmpty
-                                      ? snapShot.error.toString()
-                                      : null),
-                            );
+                            return HighStyleObscureTextField(
+                                key: const Key("text_field_password"),
+                                controller: _passwordController,
+                                hintText: S.of(context).title_password_hint,
+                                enabledBorder: const UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD6D6D6)),
+                                ),
+                                errorText: snapShot.errorText());
                           }),
                       const SizedBox(height: 40),
                       Align(

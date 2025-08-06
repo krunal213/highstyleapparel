@@ -63,10 +63,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Color(0xFFD6D6D6)),
                             ),
-                            errorText: snapShot.hasError &&
-                                    snapShot.error.toString().isNotEmpty
-                                ? snapShot.error.toString()
-                                : null,
+                            errorText: snapShot.errorText(),
                           ),
                           onSubmitted: (emailAddress) =>
                               _forgotPasswordBloc.forgotPassword(emailAddress));

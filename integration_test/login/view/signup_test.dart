@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
+import 'package:highstyleapparel/high_style_obscure_text_field.dart';
 import 'package:highstyleapparel/login/entity/register_request.dart';
 import 'package:highstyleapparel/login/entity/register_response.dart';
 import 'package:highstyleapparel/navigations.dart';
@@ -142,9 +143,9 @@ void main() {
     Finder textFieldPasswordFinder =
         find.byKey(const Key("text_field_password"));
     expect(textFieldPasswordFinder, findsOneWidget);
-    final textFieldPassword = tester.widget<TextField>(textFieldPasswordFinder);
-    expect(textFieldPassword.decoration?.hintText, 'Password*');
-    expect(textFieldPassword.decoration?.errorText,
+    final textFieldPassword = tester.widget<HighStyleObscureTextField>(textFieldPasswordFinder);
+    expect(textFieldPassword.hintText, 'Password*');
+    expect(textFieldPassword.errorText,
         'Please enter a valid password.');
   });
 
@@ -173,9 +174,9 @@ void main() {
         find.byKey(const Key("text_field_confirm_password"));
     expect(textFieldConfirmPasswordFinder, findsOneWidget);
     final textFieldConfirmPassword =
-        tester.widget<TextField>(textFieldConfirmPasswordFinder);
-    expect(textFieldConfirmPassword.decoration?.hintText, 'Confirm password*');
-    expect(textFieldConfirmPassword.decoration?.errorText,
+        tester.widget<HighStyleObscureTextField>(textFieldConfirmPasswordFinder);
+    expect(textFieldConfirmPassword.hintText, 'Confirm password*');
+    expect(textFieldConfirmPassword.errorText,
         'Please enter a valid confirm password.');
   });
 
@@ -211,9 +212,9 @@ void main() {
         find.byKey(const Key("text_field_confirm_password"));
     expect(textFieldConfirmPasswordFinder, findsOneWidget);
     final textFieldConfirmPassword =
-        tester.widget<TextField>(textFieldConfirmPasswordFinder);
-    expect(textFieldConfirmPassword.decoration?.hintText, 'Confirm password*');
-    expect(textFieldConfirmPassword.decoration?.errorText,
+        tester.widget<HighStyleObscureTextField>(textFieldConfirmPasswordFinder);
+    expect(textFieldConfirmPassword.hintText, 'Confirm password*');
+    expect(textFieldConfirmPassword.errorText,
         'Mismatch detected! Please re-enter the correct confirm password.');
   });
 

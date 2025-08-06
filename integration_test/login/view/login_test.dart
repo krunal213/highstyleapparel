@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
+import 'package:highstyleapparel/high_style_obscure_text_field.dart';
 import 'package:highstyleapparel/login/entity/login_request.dart';
 import 'package:highstyleapparel/login/entity/login_response.dart';
 import 'package:highstyleapparel/navigations.dart';
@@ -101,9 +102,9 @@ void main() {
     Finder textFieldPasswordFinder =
         find.byKey(const Key("text_field_password"));
     expect(textFieldPasswordFinder, findsOneWidget);
-    final textFieldPassword = tester.widget<TextField>(textFieldPasswordFinder);
-    expect(textFieldPassword.decoration?.hintText, 'Password');
-    expect(textFieldPassword.decoration?.errorText,
+    final textFieldPassword = tester.widget<HighStyleObscureTextField>(textFieldPasswordFinder);
+    expect(textFieldPassword.hintText, 'Password');
+    expect(textFieldPassword.errorText,
         'Please enter a valid password.');
   });
 
