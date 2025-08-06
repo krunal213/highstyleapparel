@@ -68,10 +68,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                           enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Color(0xFFD6D6D6)),
                           ),
-                          errorText: snapShot.hasError &&
-                                  snapShot.error.toString().isNotEmpty
-                              ? snapShot.error.toString()
-                              : null);
+                          errorText: snapShot.errorText());
                     }),
                 const SizedBox(height: 28),
                 StreamBuilder<String>(
@@ -84,10 +81,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                           enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Color(0xFFD6D6D6)),
                           ),
-                          errorText: snapShot.hasError &&
-                                  snapShot.error.toString().isNotEmpty
-                              ? snapShot.error.toString()
-                              : null);
+                          errorText: snapShot.errorText());
                     }),
                 const SizedBox(height: 64),
                 Center(

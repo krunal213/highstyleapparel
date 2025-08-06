@@ -40,7 +40,9 @@ class LoginFlowNetworkDataSourceImpl implements LoginFlowNetworkDataSource {
     } on DioException catch (err) {
       if (err.type == DioExceptionType.connectionError) {
         throw NoInternetException();
-      } else if (err.response != null && err.response!.statusCode == 404) {
+      } else if (err.response != null &&
+          (err.response!.statusCode == 400 ||
+              err.response!.statusCode == 404)) {
         throw ClientErrorException(err.response?.data["message"]);
       } else {
         throw SomethingWentWrongException();
@@ -86,7 +88,7 @@ class LoginFlowNetworkDataSourceImpl implements LoginFlowNetworkDataSource {
     } on DioException catch (err) {
       if (err.type == DioExceptionType.connectionError) {
         throw NoInternetException();
-      } else if (err.response != null && err.response!.statusCode == 404) {
+      } else if (err.response != null && err.response!.statusCode == 400) {
         throw ClientErrorException(err.response?.data["message"]);
       } else {
         throw SomethingWentWrongException();

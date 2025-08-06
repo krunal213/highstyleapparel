@@ -78,7 +78,7 @@ void main() {
     expect(find.byType(AlertDialog), findsNothing);
   });
 
-  testWidgets('After Submitting OTP Receive 404', (WidgetTester tester) async {
+  testWidgets('After Submitting OTP Receive 400', (WidgetTester tester) async {
     HighStyleCountDownTimerHelper mockHighStyleCountDownTimer =
         getIt.get<HighStyleCountDownTimerHelper>();
 
@@ -99,7 +99,7 @@ void main() {
         requestOptions: RequestOptions(path: '/verify-reset-otp'),
         response: Response(
           requestOptions: RequestOptions(path: '/verify-reset-otp'),
-          statusCode: 404,
+          statusCode: 400,
           data: {"message": "Invalid input"},
         ),
       );
